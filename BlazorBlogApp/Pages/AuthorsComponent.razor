@@ -1,0 +1,31 @@
+<h3>AuthorsComponent</h3>
+
+    
+@page "/authors"
+@using BlazorBlogApp.Data
+@inject IBlogService BlogService
+
+    <h3>Authors and Posts</h3>
+
+@if (authors != null)
+{
+    foreach (var author in authors)
+    {
+        <h4>@author.Name</h4>
+        <ul>
+            @foreach (var post in author.Posts)
+            {
+                <li>@post.Title</li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    private List<Author> authors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authors = await BlogService.GetAuthorsAsync();
+    }
+}
